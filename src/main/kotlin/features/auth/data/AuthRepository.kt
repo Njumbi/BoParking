@@ -17,23 +17,29 @@ class AuthRepository(private val database: Database) {
         location: String,
         password: String,
     ): Triple<Boolean, String?, UserModel?> = try {
+        // Creating a new user object with the given parameters
         val userObject = UserModel(
             id = UUID.randomUUID().toString(), role = Role.ADMIN, location = location, password = password, name = name
         )
 
         // store data in terms of a list
+        // Getting the list of businesses from the database
         var previousBusinesses = database.getListOfUsingKey<UserModel>(AppKeys.userKey)
         if (previousBusinesses == null) {
-            // no previous data found
+            // if no previous data found, create a new list
             previousBusinesses = mutableListOf(userObject)
         } else {
             // get previous users and add this one
+            // Checking if a user with the same name already exists.
             val userExists = previousBusinesses.find { it.name == name }
+            // add user to list if not null
             if (userExists != null)
                 throw Exception("User by that name already exists")
             previousBusinesses.toMutableList().add(userObject)
         }
+        // Inserting the data into the database.
         database.insertData(AppKeys.userKey, previousBusinesses)
+        // Returning a triple of values.
         Triple(true, "Success", userObject)
     } catch (e: Exception) {
         Triple(false, e.message, null)
