@@ -7,7 +7,7 @@ import features.slot.data.models.ParkingSlotModel
 
 class ParkingSlotsRepository(private val database: Database) {
 
-    fun saveParkingSlots(userId: String, parkingSlotsNo: Int, amountChargedPerHour: Int): Pair<Boolean, String?> {
+    fun saveParkingSlots(userId: String, parkingSlotsNo: Int, amountChargedPerHour: Double): Pair<Boolean, String?> {
         return try {
             // check if user exists
             val users = database.getListOfUsingKey<UserModel>(AppKeys.userKey) ?: throw Exception("Users not found")
@@ -15,7 +15,7 @@ class ParkingSlotsRepository(private val database: Database) {
 
             // save to db
             val parkingSlot = ParkingSlotModel(
-                userId = userId,
+                userId = user.id,
                 noOfParkingSlots = parkingSlotsNo,
                 amountChargedPerHour = amountChargedPerHour
             )
@@ -25,4 +25,8 @@ class ParkingSlotsRepository(private val database: Database) {
             Pair(false, e.message)
         }
     }
+
+//    fun checkIfParkingSlotIsAlreadySet(userId: String): Boolean {
+//        val slots = database.getListOfUsingKey<ParkingSlotModel>(AppKeys.parkingSlot)
+//    }
 }

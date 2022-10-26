@@ -6,5 +6,5 @@ data class ParkingSlotModel(
     val id: String = UUID.randomUUID().toString(),
     val userId: String,
     val noOfParkingSlots: Int?,
-    val amountChargedPerHour: Int?,
+    val amountChargedPerHour: Double?,
 )
