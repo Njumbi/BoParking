@@ -1,0 +1,46 @@
+package app
+
+import core.database.Database
+import core.navigation.Navigator
+import features.auth.presenter.AuthScreen
+
+fun main() {
+
+    // initiate db
+    val database = Database.Builder()
+        .setDbName("bobos_parking")
+        .buildDb()
+
+    while (true) {
+        println("*************************************************************")
+        println("Welcome ot Bo's parking system.\nHow can we help you:\n1.Park\n2.Pay")
+
+        // get initial commands
+        val initialCommand = readln()
+
+        // check screen one options
+        when (initialCommand) {
+            Navigator.park -> {
+                parkUser()
+            }
+            Navigator.pay -> {
+                payForParking()
+            }
+            Navigator.admin -> {
+                AuthScreen.adminUser(database)
+            }
+            else -> {
+                println("Sorry! Please select a valid option")
+            }
+        }
+
+    }
+}
+
+fun payForParking() {
+
+}
+
+fun parkUser() {
+
+}
