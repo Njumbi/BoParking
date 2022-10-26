@@ -15,11 +15,8 @@ fun main() {
         println("*************************************************************")
         println("Welcome ot Bo's parking system.\nHow can we help you:\n1.Park\n2.Pay")
 
-        // get initial commands
-        val initialCommand = readln()
-
         // check screen one options
-        when (initialCommand) {
+        when (readln()) {
             Navigator.park -> {
                 parkUser()
             }
