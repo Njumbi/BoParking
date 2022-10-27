@@ -38,7 +38,7 @@ class PaymentRepository(val database: Database) {
                 if (remainingSlots > 0) {
                     // available parking slot - park
                     allPayments.add(paymentModel)
-                } else throw Exception("No available parking space")
+                } else throw Exception("Unable to park, since the are no parking spaces available")
             } else {
                 allPayments = mutableListOf(paymentModel)
             }
