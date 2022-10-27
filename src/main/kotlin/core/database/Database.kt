@@ -85,20 +85,20 @@ class Database : JsonParser by JsonParserImpl() {
             val allData = readAllData()
             val data = allData[key]
             if (data != null) {
-               parseToObject(data, T::class.java)
+                parseToObject(data, T::class.java)
             } else null
         } catch (e: Exception) {
             null
         }
     }
 
-    inline fun <reified T> getListOfUsingKey(key: String): List<T>? {
+    inline fun <reified T> getListOfUsingKey(key: String): MutableList<T>? {
         return try {
             val allData = readAllData()
             val data = allData[key]
             if (data != null) {
-                val type = TypeToken.getParameterized(List::class.java, T::class.java).type
-                Gson().fromJson<List<T>>(data, type)
+                val type = TypeToken.getParameterized(MutableList::class.java, T::class.java).type
+                Gson().fromJson<MutableList<T>>(data, type)
             } else
                 null
         } catch (e: Exception) {
