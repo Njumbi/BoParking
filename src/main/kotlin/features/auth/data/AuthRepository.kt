@@ -35,7 +35,7 @@ class AuthRepository(private val database: Database) {
             // add user to list if not null
             if (userExists != null)
                 throw Exception("User by that name already exists")
-            previousBusinesses.toMutableList().add(userObject)
+            previousBusinesses.add(userObject)
         }
         // Inserting the data into the database.
         database.insertData(AppKeys.userKey, previousBusinesses)
