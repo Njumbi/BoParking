@@ -5,7 +5,6 @@ import core.database.Database
 import features.auth.data.Role
 import features.auth.data.UserModel
 import features.slot.data.models.ParkingSlotModel
-import io.mockk.InternalPlatformDsl.toArray
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -25,7 +24,7 @@ class ParkingSlotsRepositoryTest {
 
         // set up mock user
         val mockUser = UserModel(id = "200", name = "Test user", location = "Test location", role = Role.ADMIN)
-        val mockUser2 = UserModel(id = "300", name = "Test user", location = "Test location", role = Role.ADMIN)
+        val mockUser2 = UserModel(id = "300", name = "Test user Two", location = "Test location", role = Role.ADMIN)
         database.insertData(AppKeys.userKey, listOf(mockUser, mockUser2))
 
         parkingSlotsRepository = ParkingSlotsRepository(database)
@@ -33,24 +32,25 @@ class ParkingSlotsRepositoryTest {
 
     @AfterEach
     fun tearDown() {
-       // database.databaseFile?.delete()
+      //  database.databaseFile?.delete()
     }
 
     @Test
     fun `should save parking slot successfully`() {
         val saveParking = parkingSlotsRepository.saveParkingSlots("200", 90,120.00)
+        val allParkingSlots = database.getListOfUsingKey<ParkingSlotModel>(AppKeys.parkingSlot)?.map { it.noOfParkingSlots }
+        assertContains( allParkingSlots!!, 90 )
         assertEquals(saveParking.first, true)
     }
 
     @Test
     fun `should save parking slots without deleting previous one`() {
          parkingSlotsRepository.saveParkingSlots("200", 90,120.00)
-         parkingSlotsRepository.saveParkingSlots("300", 80,120.00)
+         parkingSlotsRepository.saveParkingSlots("300", 300,80.00)
 
-        val allParkingSlots = database.getListOfUsingKey<ParkingSlotModel>(AppKeys.parkingSlot)?.map { it.noOfParkingSlots }
+        val listOfParkingSlots = database.getListOfUsingKey<ParkingSlotModel>(AppKeys.parkingSlot)
 
-        assertContains( allParkingSlots!!, 90 )
-        assertContains(allParkingSlots, 80 )
+        assertEquals( listOfParkingSlots?.size, 2 )
     }
 
     @Test
