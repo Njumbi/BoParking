@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="features.pay.models.PaymentRepositoryTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-10-26T21:38:29" hostname="ngethe.local" time="0.07">
+  <properties/>
+  <testcase name="should return false if no car is found()" classname="features.pay.models.PaymentRepositoryTest" time="0.07"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
