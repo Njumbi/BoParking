@@ -3,6 +3,7 @@ package app
 import core.database.Database
 import core.navigation.Navigator
 import features.auth.presenter.AuthScreen
+import features.auth.presenter.UserScreen
 
 fun main() {
 
@@ -18,10 +19,10 @@ fun main() {
         // check screen one options
         when (readln()) {
             Navigator.park -> {
-                parkUser()
+                UserScreen.parkUser(database )
             }
             Navigator.pay -> {
-                payForParking()
+                UserScreen.displayAmountToPay(database)
             }
             Navigator.admin -> {
                 AuthScreen.adminUser(database)
@@ -34,10 +35,5 @@ fun main() {
     }
 }
 
-fun payForParking() {
 
-}
 
-fun parkUser() {
-
-}
