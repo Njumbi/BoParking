@@ -2,7 +2,7 @@ package features.auth.presenter
 
 import core.database.Database
 import features.auth.data.AuthRepository
-import features.auth.data.UserModel
+import features.slot.ui.Slot
 
 object AuthScreen {
     fun adminUser(database: Database) {
@@ -24,7 +24,7 @@ object AuthScreen {
                 if (isValidUser == null) {
                     println("User not found. Kindly retry again")
                 } else {
-                    adminSlots(isValidUser)
+                    Slot.adminSlots(isValidUser, database)
                 }
             }
             "2" -> {
@@ -53,7 +53,7 @@ object AuthScreen {
                     password
                 )
                 if (registration.first) {
-                    adminSlots(registration.third!!)
+                    Slot.adminSlots(registration.third!!, database)
                 } else {
                     println("Error: ${registration.second}")
                 }
@@ -63,21 +63,5 @@ object AuthScreen {
             }
         }
 
-    }
-
-    private fun adminSlots(isValidUser: UserModel) {
-        println("\n-----------------------------------------------------------")
-        println("Welcome ${isValidUser.name}.\n Select an option to continue:\n1.Enter no. of parking slots\n2.Enter amount charges per hour")
-        when (readln()) {
-            "1" -> {
-
-            }
-            "2" -> {
-
-            }
-            else -> {
-                println("Error: Select a valid option")
-            }
-        }
     }
 }

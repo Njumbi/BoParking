@@ -5,6 +5,6 @@ import java.util.UUID
 data class ParkingSlotModel(
     val id: String = UUID.randomUUID().toString(),
     val userId: String,
-    val noOfParkingSlots: Int?,
-    val amountChargedPerHour: Int?,
+    var noOfParkingSlots: Int?,
+    var amountChargedPerHour: Double?,
 )

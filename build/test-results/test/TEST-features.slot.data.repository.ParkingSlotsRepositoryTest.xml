@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="features.slot.data.repository.ParkingSlotsRepositoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-10-26T07:54:29" hostname="ngethe.local" time="0.127">
-  <properties/>
-  <testcase name="should return false if user does not exist()" classname="features.slot.data.repository.ParkingSlotsRepositoryTest" time="0.109"/>
-  <testcase name="should save parking slot successfully()" classname="features.slot.data.repository.ParkingSlotsRepositoryTest" time="0.016"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

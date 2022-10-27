@@ -3,6 +3,7 @@ package app
 import core.database.Database
 import core.navigation.Navigator
 import features.auth.presenter.AuthScreen
+import features.auth.presenter.UserScreen
 
 fun main() {
 
@@ -15,21 +16,19 @@ fun main() {
         println("*************************************************************")
         println("Welcome ot Bo's parking system.\nHow can we help you:\n1.Park\n2.Pay")
 
-        // get initial commands
-        val initialCommand = readln()
-
         // check screen one options
-        when (initialCommand) {
+        when (readln()) {
             Navigator.park -> {
-                parkUser()
+                UserScreen.parkUser(database )
             }
             Navigator.pay -> {
-                payForParking()
+                UserScreen.displayAmountToPay(database)
             }
             Navigator.admin -> {
                 AuthScreen.adminUser(database)
             }
             else -> {
+                println("-------------------------------------")
                 println("Sorry! Please select a valid option")
             }
         }
@@ -37,10 +36,5 @@ fun main() {
     }
 }
 
-fun payForParking() {
 
-}
 
-fun parkUser() {
-
-}
