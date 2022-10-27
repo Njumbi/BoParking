@@ -52,25 +52,27 @@ class PaymentRepository(val database: Database) {
 
     //check existing record of number plate
     // if car number is present query details using the car number plate
-    fun prepPay(
+    fun displayPaymentToUser(
         carNo: String
     ): Triple<Boolean, String?, PaymentModel?> {
         return try {
             val carPayments = database.getListOfUsingKey<PaymentModel>(AppKeys.payments)
                 ?: throw Exception("No car parking record for $carNo")
             // Checking if the car is parked in the parking area.
-            val carWantingToPay = carPayments.find { it.carPlate == carNo && it.endingTime == null && it.amount == null }
+            val carRequestingPayment = carPayments.find { it.carPlate == carNo && it.endingTime == null && it.amount == null }
                 ?: throw Exception("Looks like your car has not been parked in this premises")
 
-            // update payment
+
+            // check if parking exists
             val parkingSlot = database.getListOfUsingKey<ParkingSlotModel>(AppKeys.parkingSlot)
-            val carParkingSlot = parkingSlot?.find { it.id == carWantingToPay.parkingSlot }
+           val currentParkingSlot = parkingSlot?.find { it.id == carRequestingPayment.parkingSlot }
                 ?: throw Exception("Unable to find parking area number")
 
-            carWantingToPay.endingTime = Date().time
-            carWantingToPay.amount = (((carWantingToPay.endingTime!! - carWantingToPay.startingTime!!) / (1000 * 60 * 60)) % 24);
+            // update payment
+            carRequestingPayment.endingTime = Date().time
+            carRequestingPayment.amount = (((carRequestingPayment.endingTime!! - carRequestingPayment.startingTime!!) / 1000)) * currentParkingSlot.amountChargedPerHour!!;
 
-            Triple(true, "", carWantingToPay)
+            Triple(true, "", carRequestingPayment)
         } catch (e: Exception) {
             Triple(false, e.message, null)
         }

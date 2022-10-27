@@ -127,12 +127,64 @@ class PaymentRepositoryTest {
 
     @Test
     fun `should return false if no car with such number plate  is found when user selects pay`() {
-        val park = paymentRepository.prepPay("KDE212N")
+        val park = paymentRepository.displayPaymentToUser("KDE212N")
         assertEquals(park.first, false)
         assertEquals(park.second, "No car parking record for KDE212N")
     }
-    @Test
-    fun `should return false if no car with the particular number plate is found`(){
 
+    @Test
+    fun `should return true if car has been parked and is waiting for payment`() {
+        val mockPaymentModel = PaymentModel(
+            id = "3122",
+            userId = 200,
+            carPlate = "KCS 112 D",
+            amount = 900.00,
+            startingTime = Date().time,
+            endingTime = Date().time,
+            parkingSlot = "212"
+        )
+        database.insertData(
+            AppKeys.payments, listOf(
+                mockPaymentModel
+            )
+        )
+
+        val parkCar = paymentRepository.displayPaymentToUser("KCS 112 D")
+
+        assertEquals(parkCar.first,false)
+        assertEquals(parkCar.second, "Looks like your car has not been parked in this premises")
+    }
+
+    @Test
+    fun `should return false if parking area number is not found`(){
+
+        val mockParkingSlotModel = ParkingSlotModel(
+            id = "12",
+            userId = "200", noOfParkingSlots = 4, amountChargedPerHour = 100.00
+        )
+        database.insertData(
+            AppKeys.parkingSlot, listOf(
+                mockParkingSlotModel
+            )
+        )
+        val mockPaymentModel = PaymentModel(
+            id = "3122",
+            userId = 200,
+            carPlate = "KCS 112 D",
+            amount = null,
+            startingTime = null,
+            endingTime = null,
+            parkingSlot = "200"
+        )
+
+        database.insertData(
+            AppKeys.payments, listOf(
+                mockPaymentModel
+            )
+        )
+
+        val parkCar = paymentRepository.displayPaymentToUser("KCS 112 D")
+        assertEquals(parkCar.first,false)
+        assertEquals(parkCar.second, "Unable to find parking area number")
     }
 }
