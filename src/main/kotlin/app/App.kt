@@ -28,6 +28,7 @@ fun main() {
                 AuthScreen.adminUser(database)
             }
             else -> {
+                println("-------------------------------------")
                 println("Sorry! Please select a valid option")
             }
         }
