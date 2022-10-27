@@ -2,15 +2,10 @@ package features.auth.data
 
 import core.database.AppKeys
 import core.database.Database
-import io.mockk.coEvery
-import io.mockk.mockk
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import javax.xml.crypto.Data
 
 
 class AuthRepositoryTest {
@@ -18,7 +13,7 @@ class AuthRepositoryTest {
     private lateinit var authRepository: AuthRepository
     private lateinit var database: Database
 
-    @BeforeAll
+    @BeforeEach
     fun setUp() {
         database = Database.Builder()
             .setDbName("test")
@@ -26,7 +21,7 @@ class AuthRepositoryTest {
         authRepository = AuthRepository(database)
     }
 
-    @AfterAll
+    @AfterEach
     fun tearDown() {
         database.databaseFile.delete()
     }
@@ -41,6 +36,24 @@ class AuthRepositoryTest {
         )
 
         assertEquals(registerUserResponse.first, true)
+    }
+
+    @Test
+    fun `should return true given more than users can be registered`() {
+        // assert
+      authRepository.registerAdmin(
+            "Bobos",
+            location = "kahawa",
+            password = "password"
+        )
+      authRepository.registerAdmin(
+            "Toni ",
+            location = "kahawa",
+            password = "toni"
+        )
+
+        val data  = database.getListOfUsingKey<UserModel>(AppKeys.userKey)
+        assertEquals( data?.size, 2 )
     }
 
     @Test
