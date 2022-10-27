@@ -34,7 +34,7 @@ object UserScreen {
         if (parkResponse.first)
             println("Welcome to our Parking, go ahead and park your car")
         else
-            println("Unable to park. ${parkResponse.second}")
+            println("${parkResponse.second}")
         println("-------------------------------------")
     }
 
